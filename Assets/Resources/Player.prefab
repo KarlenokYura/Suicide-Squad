@@ -70,6 +70,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 216d1c90fac6d224ca4f86a0d1706825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerPrefab: {fileID: 7944898324259925739}
+  _isFirstCollision: 0
 --- !u!1 &7088405470126071005
 GameObject:
   m_ObjectHideFlags: 0
@@ -295,6 +297,7 @@ MonoBehaviour:
   _bulletBorder: {fileID: 6689855471412734284}
   _camera: {fileID: 7088405470126071003}
   _controllerBorder: {fileID: 0}
+  _gameManager: {fileID: 0}
   _playerSpeed: 5
 --- !u!50 &8167539553600274492
 Rigidbody2D:
