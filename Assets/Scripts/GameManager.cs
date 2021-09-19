@@ -3,6 +3,8 @@ using Photon.Pun;
 using UnityEngine.SceneManagement;
 using Photon.Realtime;
 using System.Collections;
+using UnityEngine.UI;
+using LootLocker.Requests;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -13,27 +15,35 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField]
     public int _bulletPriorPlayerID = -1;
     [SerializeField]
-    private IEnumerator _coroutine;
+    private Image _timerBorder;
     [SerializeField]
-    private bool _coroutineIsRunning;
+    private Image _timerBar;
+    [SerializeField]
+    private Text _stopwatch;
 
     private void Start()
     {
         PhotonNetwork.Instantiate(_playerPrefab.name, new Vector2(Random.Range(-5f, 5f), Random.Range(-3f, 3f)), Quaternion.identity);
+        LootLockerSDKManager.StartSession("Player", (response) =>
+        {
+            if (response.success)
+            {
+                Debug.Log("Success");
+            }
+        });
+        photonView.RPC("MasterGetTimerBarTime", RpcTarget.MasterClient);
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            PhotonNetwork.CurrentRoom.SetPropertiesListedInLobby(new string[] { PhotonNetwork.NickName });
             if (_bulletPlayerID == -1 && PhotonNetwork.CurrentRoom.PlayerCount > 2)
             {
-                if (!_coroutineIsRunning)
-                {
-                    _coroutine = SetBulletToPlayer(PhotonNetwork.PlayerList[Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount)].ActorNumber);
-                    StartCoroutine(_coroutine);
-                }
-                //StartCoroutine("SetBulletToPlayer", PhotonNetwork.PlayerList[Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount)].ActorNumber);
+                StartCoroutine("SetBulletToPlayer", PhotonNetwork.PlayerList[Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount)].ActorNumber);
+                photonView.RPC("ActivateTimerBar", RpcTarget.AllBuffered, true);
+                photonView.RPC("ActivateStopwatch", RpcTarget.AllBuffered, true);
             }
         }
     }
@@ -42,27 +52,25 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            photonView.RPC("MasterSetLeaderboard", RpcTarget.MasterClient, otherPlayer.NickName);
             if (PhotonNetwork.CurrentRoom.PlayerCount < 3)
             {
-                if (!_coroutineIsRunning)
+                foreach (Player player in PhotonNetwork.PlayerList)
                 {
-                    _coroutine = SetBulletToPlayer(-1);
-                    StartCoroutine(_coroutine);
+                    photonView.RPC("MasterSetLeaderboard", RpcTarget.MasterClient, player.NickName);
                 }
+                StartCoroutine("SetBulletToPlayer", -1);
                 if (otherPlayer.ActorNumber != _bulletPlayerID)
                 {
                     photonView.RPC("MasterSetBulletToPriorPlayer", RpcTarget.MasterClient, _bulletPlayerID, false);
                 }
                 photonView.RPC("MasterSetBulletToPriorPlayer", RpcTarget.MasterClient, -1, false);
+                photonView.RPC("ActivateTimerBar", RpcTarget.AllBuffered, false);
+                photonView.RPC("ActivateStopwatch", RpcTarget.AllBuffered, false);
             }
             else if (otherPlayer.ActorNumber == _bulletPlayerID)
             {
-                if (!_coroutineIsRunning)
-                {
-                    _coroutine = SetBulletToPlayer(PhotonNetwork.PlayerList[Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount)].ActorNumber);
-                    StartCoroutine(_coroutine);
-                }
-                //StartCoroutine("SetBulletToPlayer", PhotonNetwork.PlayerList[Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount)].ActorNumber);
+                StartCoroutine("SetBulletToPlayer", PhotonNetwork.PlayerList[Random.Range(0, PhotonNetwork.CurrentRoom.PlayerCount)].ActorNumber);
                 photonView.RPC("MasterSetBulletToPriorPlayer", RpcTarget.MasterClient, -1, false);
             }
         }
@@ -70,10 +78,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public IEnumerator SetBulletToPlayer(int playerId)
     {
-        _coroutineIsRunning = true;
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.5f);
         photonView.RPC("MasterSetBulletToPlayer", RpcTarget.MasterClient, playerId, true);
-        _coroutineIsRunning = false;
     }
 
     [PunRPC]
@@ -116,5 +122,83 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void AllSetBulletToPriorPlayer(int priorPlayerId)
     {
         _bulletPriorPlayerID = priorPlayerId;
+    }
+
+    [PunRPC]
+    public void MasterGetTimerBarTime()
+    {
+        photonView.RPC("AllSetTimerBarTime", RpcTarget.AllBuffered, _timerBar.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
+    }
+
+    [PunRPC]
+    public void AllSetTimerBarTime(float timerBarTime)
+    {
+        _timerBar.GetComponent<Animator>().Play("TimerBarAnimation", 0, timerBarTime);
+    }
+
+    [PunRPC]
+    public void ActivateTimerBar(bool isActive)
+    {
+        if (isActive)
+        {
+            _timerBar.GetComponent<Animator>().Play("TimerBarAnimation", 0, 0);
+        }
+        _timerBorder.gameObject.SetActive(isActive);
+    }
+
+    [PunRPC]
+    public void ActivateStopwatch(bool isActive)
+    {
+        _stopwatch.gameObject.SetActive(isActive);
+    }
+
+    public void SuicidePlayer()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            if (_bulletPlayerID != -1)
+            {
+                foreach (Player player in PhotonNetwork.PlayerList)
+                {
+                    if (player.ActorNumber == _bulletPlayerID)
+                    {
+                        if (player.IsMasterClient)
+                        {
+                            photonView.RPC("MasterSetLeaderboard", RpcTarget.MasterClient, player.NickName);
+                        }
+                        photonView.RPC("KickPlayer", player);
+                    }
+                }
+            }
+            photonView.RPC("MasterSetBulletToPriorPlayer", RpcTarget.MasterClient, -1, false);
+        }
+    }
+
+    [PunRPC]
+    public void KickPlayer()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
+    [PunRPC]
+    public void MasterSetLeaderboard(string nickname)
+    {
+        int time = 0;
+        if (_stopwatch.IsActive())
+        {
+            string[] stopwatch = _stopwatch.GetComponent<Text>().text.Split(':');
+            time = System.Int32.Parse(stopwatch[3]) + (System.Int32.Parse(stopwatch[2]) * 1000) + (System.Int32.Parse(stopwatch[1]) * 1000 * 60) + (System.Int32.Parse(stopwatch[0]) * 1000 * 60 * 60);
+        }
+        LootLockerSDKManager.SubmitScore(nickname, time, 460, null);
+    }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        base.OnMasterClientSwitched(newMasterClient);
+    }
+
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene("LobbyScene");
     }
 }

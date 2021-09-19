@@ -70,9 +70,12 @@
     <Compile Include="Assets\Scripts\BulletBorder.cs" />
     <Compile Include="Assets\Scripts\ControllerBorder.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Leaderboard.cs" />
     <Compile Include="Assets\Scripts\LoadingManager.cs" />
     <Compile Include="Assets\Scripts\LobbyManager.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
+    <Compile Include="Assets\Scripts\Stopwatch.cs" />
+    <Compile Include="Assets\Scripts\TimerBar.cs" />
     <None Include="Assets\Photon\PhotonLibs\netstandard2.0\Photon3Unity3D.xml" />
     <None Include="Assets\Photon\PhotonUnityNetworking\changelog.txt" />
     <None Include="Assets\Photon\PhotonLibs\changes-library.txt" />
@@ -267,6 +270,9 @@
     </Reference>
     <Reference Include="websocket-sharp">
       <HintPath>D:/Unity/Suicide-Squad/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>D:/Unity/Suicide-Squad/Library/PackageCache/com.unity.nuget.newtonsoft-json@2.0.0/Runtime/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.19f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -723,6 +729,10 @@
     <ProjectReference Include="PhotonUnityNetworking.Editor.csproj">
       <Project>{50DE1875-845E-0E35-D20B-7F9C7BFC3C81}</Project>
       <Name>PhotonUnityNetworking.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="lootlocker.lootlockersdk.runtime.csproj">
+      <Project>{B45C1636-D95E-FE5B-59F4-B91E18825EA2}</Project>
+      <Name>lootlocker.lootlockersdk.runtime</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

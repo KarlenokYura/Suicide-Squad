@@ -4,11 +4,12 @@ ScriptsOnlyBuild:
     - BulletBorder
     - ControllerBorder
     - GameManager
+    - Leaderboard
     - LoadingManager
     - LobbyManager
     - PlayerMovement
-    PhotonUnityNetworking.Editor.dll:
-    - Photon.Pun.PunSceneSettings
+    - Stopwatch
+    - TimerBar
     PhotonUnityNetworking.dll:
     - Photon.Pun.PhotonRigidbody2DView
     - Photon.Pun.PhotonView
@@ -26,8 +27,10 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -41,7 +44,10 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
     - UnityEngine.UI.InputField
+    - UnityEngine.UI.Shadow
     - UnityEngine.UI.Text
+    lootlocker.lootlockersdk.runtime.dll:
+    - LootLocker.LootLockerConfig
   sceneClasses:
     Assets/Scenes/GameScene.unity:
     - Class: 1
@@ -52,15 +58,27 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 21
       Script: {instanceID: 0}
+    - Class: 23
+      Script: {instanceID: 0}
     - Class: 28
       Script: {instanceID: 0}
     - Class: 48
       Script: {instanceID: 0}
     - Class: 50
       Script: {instanceID: 0}
+    - Class: 58
+      Script: {instanceID: 0}
     - Class: 61
       Script: {instanceID: 0}
+    - Class: 74
+      Script: {instanceID: 0}
     - Class: 81
+      Script: {instanceID: 0}
+    - Class: 91
+      Script: {instanceID: 0}
+    - Class: 95
+      Script: {instanceID: 0}
+    - Class: 102
       Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
@@ -72,6 +90,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 11448}
     - Class: 114
       Script: {instanceID: 11498}
+    - Class: 114
+      Script: {instanceID: 11596}
     - Class: 114
       Script: {instanceID: 11652}
     - Class: 114
@@ -86,7 +106,13 @@ ScriptsOnlyBuild:
       Script: {instanceID: 14452}
     - Class: 114
       Script: {instanceID: 14578}
+    - Class: 114
+      Script: {instanceID: 26418}
+    - Class: 114
+      Script: {instanceID: 37038}
     - Class: 115
+      Script: {instanceID: 0}
+    - Class: 128
       Script: {instanceID: 0}
     - Class: 157
       Script: {instanceID: 0}
@@ -111,15 +137,21 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 21
       Script: {instanceID: 0}
+    - Class: 23
+      Script: {instanceID: 0}
     - Class: 28
       Script: {instanceID: 0}
     - Class: 48
       Script: {instanceID: 0}
     - Class: 50
       Script: {instanceID: 0}
+    - Class: 58
+      Script: {instanceID: 0}
     - Class: 61
       Script: {instanceID: 0}
     - Class: 81
+      Script: {instanceID: 0}
+    - Class: 102
       Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
@@ -145,6 +177,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 14452}
     - Class: 114
       Script: {instanceID: 14578}
+    - Class: 114
+      Script: {instanceID: 41062}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -187,6 +221,8 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11652}
     - Class: 114
+      Script: {instanceID: 12234}
+    - Class: 114
       Script: {instanceID: 12368}
     - Class: 114
       Script: {instanceID: 13116}
@@ -198,6 +234,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 14020}
     - Class: 114
       Script: {instanceID: 14578}
+    - Class: 114
+      Script: {instanceID: 75386}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -271,7 +309,7 @@ ScriptsOnlyBuild:
     className: PhotonStatsGui
   - hash:
       serializedVersion: 2
-      Hash: cf1b52579f66ccf3d28d3b1c8f376646
+      Hash: 1f83bb472e8c4dc0b3363556fa411e30
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerMovement
@@ -559,7 +597,7 @@ ScriptsOnlyBuild:
     className: SpriteShape
   - hash:
       serializedVersion: 2
-      Hash: 421eb32e64083b23efd8e9047fca6c3c
+      Hash: ab57084c9ac7a5a177cf9ca8d7bb40bf
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameManager
@@ -799,7 +837,7 @@ ScriptsOnlyBuild:
     className: BeforeAfterTestCommandState
   - hash:
       serializedVersion: 2
-      Hash: 23a69653688bd09c8350d7a8cb1650e3
+      Hash: 5cb237e33af6958d6ed5d583bdef8f88
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: LobbyManager
@@ -971,6 +1009,36 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 2163da67692a57374f3057db10f9ff4c
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: TimerBar
+  - hash:
+      serializedVersion: 2
+      Hash: a7511d7c4f13900387301e89e21a1269
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Stopwatch
+  - hash:
+      serializedVersion: 2
+      Hash: ea9f30ed8143158d0b213ef8fdf34486
+    assemblyName: lootlocker.lootlockersdk.runtime.dll
+    namespaceName: LootLocker
+    className: LootLockerConfig
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: lootlocker.lootlockersdk.runtime.dll
+    namespaceName: LootLocker
+    className: LootLockerServerManager
+  - hash:
+      serializedVersion: 2
+      Hash: a2cc4127a52ce3a6b3a3440535d567a2
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Leaderboard
   platform: 5
   scenePathNames:
   - Assets/Scenes/LoadingScene.unity

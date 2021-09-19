@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviourPunCallbacks
 {
@@ -12,12 +13,15 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     [SerializeField]
     public GameManager _gameManager;
     [SerializeField]
+    private TextMesh _nickname;
+    [SerializeField]
     private float _playerSpeed = 1.0f;
 
     void Awake()
     {
         _controllerBorder = GameObject.FindGameObjectWithTag("ControllerBorder").GetComponent<ControllerBorder>();
         _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        _nickname.GetComponent<TextMesh>().text = photonView.Owner.NickName;
         if (photonView.IsMine)
         {
             _camera.gameObject.SetActive(true);
@@ -47,12 +51,12 @@ public class PlayerMovement : MonoBehaviourPunCallbacks
     {
         if (isBullet)
         {
-            GetComponent<SpriteRenderer>().color = Color.black;
+            _nickname.color = Color.red;
             _bulletBorder.gameObject.SetActive(true);
         }
         else
         {
-            GetComponent<SpriteRenderer>().color = Color.white;
+            _nickname.color = Color.magenta;
             _bulletBorder.gameObject.SetActive(false);
         }
         _bulletBorder.GetComponent<BulletBorder>()._isFirstCollision = false;

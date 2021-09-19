@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotonUnityNetworking", "Ph
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotonRealtime", "PhotonRealtime.csproj", "{BD3D0B07-50C5-8261-BD28-BFEF3C8F098F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lootlocker.lootlockersdk.runtime", "lootlocker.lootlockersdk.runtime.csproj", "{B45C1636-D95E-FE5B-59F4-B91E18825EA2}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotonUnityNetworking.Editor", "PhotonUnityNetworking.Editor.csproj", "{50DE1875-845E-0E35-D20B-7F9C7BFC3C81}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotonUnityNetworking.Utilities.PhotonPlayer.Editor", "PhotonUnityNetworking.Utilities.PhotonPlayer.Editor.csproj", "{87D8411D-5ABA-B972-AA19-14EBCCB3F310}"
@@ -43,6 +45,10 @@ Global
 		{BD3D0B07-50C5-8261-BD28-BFEF3C8F098F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD3D0B07-50C5-8261-BD28-BFEF3C8F098F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD3D0B07-50C5-8261-BD28-BFEF3C8F098F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B45C1636-D95E-FE5B-59F4-B91E18825EA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B45C1636-D95E-FE5B-59F4-B91E18825EA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B45C1636-D95E-FE5B-59F4-B91E18825EA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B45C1636-D95E-FE5B-59F4-B91E18825EA2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{50DE1875-845E-0E35-D20B-7F9C7BFC3C81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{50DE1875-845E-0E35-D20B-7F9C7BFC3C81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50DE1875-845E-0E35-D20B-7F9C7BFC3C81}.Release|Any CPU.ActiveCfg = Release|Any CPU
